@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 import {Test} from "forge-std/Test.sol";
 import {MockChainlinkFeed} from "../src/MockChainlinkFeed.sol";
 import {FixingsRecorder} from "../src/FixingsRecorder.sol";
+import {IFixingsRecorder} from "../src/interfaces/IFixingsRecorder.sol";
 import {NoteQuoter, NoteTerms} from "../src/NoteQuoter.sol";
 
 contract FeedScenariosTest is Test {
@@ -58,7 +59,7 @@ contract FeedScenariosTest is Test {
         feed.pushRound(PRICE); // R2
         uint40 obsTime = uint40(block.timestamp); // at/after R2
         // R1 is not the last round at-or-before obsTime — R2 is
-        vm.expectRevert(abi.encodeWithSelector(FixingsRecorder.NotLastRoundBefore.selector, R1, obsTime));
+        vm.expectRevert(abi.encodeWithSelector(IFixingsRecorder.NotLastRoundBefore.selector, R1, obsTime));
         recorder.recordFixing(obsTime, R1);
     }
 
@@ -66,13 +67,13 @@ contract FeedScenariosTest is Test {
         feed.pushRound(PRICE);
         uint40 obsTime = uint40(block.timestamp);
         recorder.recordFixing(obsTime, R1);
-        vm.expectRevert(abi.encodeWithSelector(FixingsRecorder.AlreadyRecorded.selector, obsTime));
+        vm.expectRevert(abi.encodeWithSelector(IFixingsRecorder.AlreadyRecorded.selector, obsTime));
         recorder.recordFixing(obsTime, R1);
     }
 
     function test_bad_price_anomaly_guard() public {
         feed.pushRound(int256(3.96e18)); // the real feed's round-1 scale artifact
-        vm.expectRevert(abi.encodeWithSelector(FixingsRecorder.BadPrice.selector, int256(3.96e18)));
+        vm.expectRevert(abi.encodeWithSelector(IFixingsRecorder.BadPrice.selector, int256(3.96e18)));
         recorder.recordFixing(uint40(block.timestamp), R1);
     }
 
@@ -97,7 +98,7 @@ contract FeedScenariosTest is Test {
         feed.pushRound(PRICE + 2e8); // R2: first round after the halt
 
         // the stale R1 is rejected for this observation
-        vm.expectRevert(abi.encodeWithSelector(FixingsRecorder.FixingTooStale.selector, uint40(1_790_699_124), obsTime));
+        vm.expectRevert(abi.encodeWithSelector(IFixingsRecorder.FixingTooStale.selector, uint40(1_790_699_124), obsTime));
         recorder.recordFixing(obsTime, R1);
 
         // R2 is accepted as the rolled fixing
@@ -112,7 +113,7 @@ contract FeedScenariosTest is Test {
         uint40 obsTime = uint40(block.timestamp) + 7 days;
         vm.warp(obsTime + 9 days); // dead > 8 days: vault-level settlement territory
         feed.pushRound(PRICE);
-        vm.expectRevert(abi.encodeWithSelector(FixingsRecorder.RollTooLong.selector, uint40(obsTime + 9 days), obsTime));
+        vm.expectRevert(abi.encodeWithSelector(IFixingsRecorder.RollTooLong.selector, uint40(obsTime + 9 days), obsTime));
         recorder.recordFixing(obsTime, R1 + 1);
     }
 
@@ -122,7 +123,7 @@ contract FeedScenariosTest is Test {
         vm.warp(obsTime + 10 minutes); // short gap, well under 96h
         feed.pushRound(PRICE);
         // R2 is after obsTime, but R1 proves there was NO disruption
-        vm.expectRevert(abi.encodeWithSelector(FixingsRecorder.NoGapProof.selector, R1 + 1, obsTime));
+        vm.expectRevert(abi.encodeWithSelector(IFixingsRecorder.NoGapProof.selector, R1 + 1, obsTime));
         recorder.recordFixing(obsTime, R1 + 1);
     }
 

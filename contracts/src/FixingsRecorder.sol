@@ -1,18 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-interface IAggregatorV3Rounds {
-    function latestRoundData()
-        external
-        view
-        returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
-    function getRoundData(uint80 roundId)
-        external
-        view
-        returns (uint80, int256, uint256, uint256, uint80);
-    function latestRound() external view returns (uint256);
-    function decimals() external view returns (uint8);
-}
+import {IAggregatorV3} from "./interfaces/IAggregatorV3.sol";
+import {IFixingsRecorder} from "./interfaces/IFixingsRecorder.sol";
 
 /// FixingsRecorder — one instance per underlying (per feed). Permissionless,
 /// trustless: anyone can record, and every recorded fixing is verified against
@@ -22,33 +12,17 @@ interface IAggregatorV3Rounds {
 ///   Case A (normal):  last round with updatedAt <= obsTime, age <= 96h.
 ///   Case B (rolled):  first round with updatedAt > obsTime, when the previous
 ///                     round proves a >96h gap (disrupted day).
-contract FixingsRecorder {
+contract FixingsRecorder is IFixingsRecorder {
     uint40 public constant MAX_FIX_AGE = 96 hours; // holiday-weekend coverage
     uint40 public constant MAX_ROLL = 8 days;      // beyond: settle at last good fix (vault logic)
     int256 public constant PRICE_MAX = 1e13;       // $100k @ 8dec — kills early-round scale anomaly
 
-    struct Fixing {
-        uint40 timestamp; // actual feed updatedAt, not obsTime
-        uint96 price;     // feed decimals
-        uint80 roundId;   // audit trail (also emitted)
-    }
-
-    IAggregatorV3Rounds public immutable feed;
+    IAggregatorV3 public immutable feed;
 
     mapping(uint40 obsTime => Fixing) public fixings;
 
-    event FixingRecorded(uint40 indexed obsTime, uint80 roundId, uint96 price, uint40 timestamp);
-
-    error AlreadyRecorded(uint40 obsTime);
-    error FutureObservation(uint40 obsTime);
-    error BadPrice(int256 answer);
-    error NotLastRoundBefore(uint80 roundId, uint40 obsTime);
-    error FixingTooStale(uint40 updatedAt, uint40 obsTime);
-    error NoGapProof(uint80 roundId, uint40 obsTime);
-    error RollTooLong(uint40 updatedAt, uint40 obsTime);
-
     constructor(address feed_) {
-        feed = IAggregatorV3Rounds(feed_);
+        feed = IAggregatorV3(feed_);
     }
 
     function recordFixing(uint40 obsTime, uint80 roundId) external {

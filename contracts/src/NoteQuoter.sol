@@ -1,45 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-/// AggregatorV3-compatible feed. Testnet: MockChainlinkFeed (owner-pushed,
-/// see docs/interfaces/deployments.md). Mainnet: Chainlink TSLA/USD,
-/// 8 decimals, 24/5 with oraclePaused() during corporate actions.
-interface IAggregatorV3 {
-    function latestRoundData()
-        external
-        view
-        returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
-    function decimals() external view returns (uint8);
-}
+import {IAggregatorV3} from "./interfaces/IAggregatorV3.sol";
+import {ISurrogatePricer, PricerInputs} from "./interfaces/ISurrogatePricer.sol";
 
-interface IFeedPause {
-    function oraclePaused() external view returns (bool);
-}
-
-/// The Stylus surrogate (int8 MLP distilled from the Monte Carlo teacher).
-/// Pure function: raw features in, price out; normalization to int8 happens
-/// inside the Stylus contract with the ranges pinned in student_export.json.
-interface ISurrogatePricer {
-    function priceBps(PricerInputs calldata in_) external view returns (uint16 priceBpsOfNotional);
-    function weightsHash() external view returns (bytes32);
-}
-
-/// Raw feature vector — featureSpecVersion 1. All values in raw units
-/// (bps-of-initial-fixing, bps-annualized-vol, seconds). Every field must be
-/// computable on-chain from (feed, note terms, block.timestamp, fixing state).
-struct PricerInputs {
-    uint16 spotBpsOfInitial;    // spot / initialFixing * 10_000
-    int32  distToKnockInBps;    // (spot - knockInBarrier) / initialFixing * 10_000, signed
-    uint16 volBpsAnnual;        // implied vol, writer-set note term (no oracle)
-    uint16 kiBarrierBps;        // knock-in barrier, bps of initial fixing
-    uint16 acBarrierBps;        // autocall barrier, bps of initial fixing
-    uint16 couponBpsPerPeriod;  // coupon per observation period, bps of notional
-    uint32 timeToMaturitySecs;
-    uint32 timeToNextObsSecs;   // capped at observationIntervalSecs
-    uint8  observationsRemaining;
-    uint8  flags;               // bit0: knocked-in (from recorded fixings)
-}
-
+/// Legacy terms-based API from the K1 lane (caller passes NoteTerms). The
+/// series-based target API is interfaces/INoteQuoter.sol; this contract will
+/// be reworked to implement it.
 struct NoteTerms {
     uint256 initialFixing;      // USD, feed decimals (8) — recorded at issuance
     uint16 kiBarrierBps;
@@ -58,7 +25,6 @@ struct NoteTerms {
 /// Out-of-training-range inputs FAIL CLOSED (revert), never clamped (K3).
 contract NoteQuoter {
     error FeedStale(uint40 updatedAt);
-    error FeedPaused();
     error BadFeedAnswer();
     error OutOfRange(bytes32 field, int256 value);
     error FeeTooHigh();
