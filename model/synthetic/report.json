@@ -1,0 +1,17 @@
+{
+ "note": "SYNTHETIC toy target, not the Monte Carlo teacher. Quantization numbers only.",
+ "weightBits": 16,
+ "activationBits": 16,
+ "parameterCount": 3873,
+ "weightsHash": "0x786c2f5ffe9229c1e3df202cdb0c30bcfb99013a969b3c7c65de8bb7fa28eca9",
+ "quantizationErrorBps": {
+  "p50": 0.2948132774054102,
+  "p99": 1.1890823381989335,
+  "max": 3.152202994959225
+ },
+ "floatFitErrorBps": {
+  "p50": 31.255586772949755,
+  "p99": 304.0150925817771,
+  "max": 1045.4989807896045
+ }
+}
