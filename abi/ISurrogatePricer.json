@@ -1,0 +1,115 @@
+[
+  {
+    "type": "function",
+    "name": "featureSpecVersion",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "priceBps",
+    "inputs": [
+      {
+        "name": "inputs",
+        "type": "tuple",
+        "internalType": "struct PricerInputs",
+        "components": [
+          {
+            "name": "spotBpsOfInitial",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "distToKnockInBps",
+            "type": "int32",
+            "internalType": "int32"
+          },
+          {
+            "name": "volBpsAnnual",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "kiBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "acBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "couponBpsPerPeriod",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "timeToMaturitySecs",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "timeToNextObsSecs",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "observationsRemaining",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "flags",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "priceBpsOfNotional",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "weightsHash",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "OutOfRange",
+    "inputs": [
+      {
+        "name": "field",
+        "type": "uint8",
+        "internalType": "uint8"
+      },
+      {
+        "name": "value",
+        "type": "int64",
+        "internalType": "int64"
+      }
+    ]
+  }
+]

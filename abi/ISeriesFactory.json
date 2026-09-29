@@ -1,0 +1,401 @@
+[
+  {
+    "type": "function",
+    "name": "allSeries",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "collateral",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "createSeries",
+    "inputs": [
+      {
+        "name": "terms",
+        "type": "tuple",
+        "internalType": "struct SeriesTerms",
+        "components": [
+          {
+            "name": "feed",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "strikeTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "observationInterval",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "observationCount",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "kiBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "acBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "couponBpsPerPeriod",
+            "type": "uint16",
+            "internalType": "uint16"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "series",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "deployRecorder",
+    "inputs": [
+      {
+        "name": "feed",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "recorder",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isSeries",
+    "inputs": [
+      {
+        "name": "series",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "predictSeries",
+    "inputs": [
+      {
+        "name": "terms",
+        "type": "tuple",
+        "internalType": "struct SeriesTerms",
+        "components": [
+          {
+            "name": "feed",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "strikeTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "observationInterval",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "observationCount",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "kiBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "acBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "couponBpsPerPeriod",
+            "type": "uint16",
+            "internalType": "uint16"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "series",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "note",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "writer",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "recorderOf",
+    "inputs": [
+      {
+        "name": "feed",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "seriesId",
+    "inputs": [
+      {
+        "name": "terms",
+        "type": "tuple",
+        "internalType": "struct SeriesTerms",
+        "components": [
+          {
+            "name": "feed",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "strikeTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "observationInterval",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "observationCount",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "kiBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "acBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "couponBpsPerPeriod",
+            "type": "uint16",
+            "internalType": "uint16"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "seriesOf",
+    "inputs": [
+      {
+        "name": "seriesId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "RecorderDeployed",
+    "inputs": [
+      {
+        "name": "feed",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "recorder",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SeriesCreated",
+    "inputs": [
+      {
+        "name": "seriesId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "feed",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "series",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "note",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "writer",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "terms",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct SeriesTerms",
+        "components": [
+          {
+            "name": "feed",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "strikeTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "observationInterval",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "observationCount",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "kiBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "acBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "couponBpsPerPeriod",
+            "type": "uint16",
+            "internalType": "uint16"
+          }
+        ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "BadBarriers",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "BadCoupon",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "BadFeed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "BadSchedule",
+    "inputs": []
+  }
+]

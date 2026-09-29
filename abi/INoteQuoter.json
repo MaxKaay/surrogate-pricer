@@ -1,0 +1,165 @@
+[
+  {
+    "type": "function",
+    "name": "MAX_FEED_STALENESS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "inputs",
+    "inputs": [
+      {
+        "name": "series",
+        "type": "address",
+        "internalType": "contract INoteSeries"
+      },
+      {
+        "name": "volBpsAnnual",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct PricerInputs",
+        "components": [
+          {
+            "name": "spotBpsOfInitial",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "distToKnockInBps",
+            "type": "int32",
+            "internalType": "int32"
+          },
+          {
+            "name": "volBpsAnnual",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "kiBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "acBarrierBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "couponBpsPerPeriod",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "timeToMaturitySecs",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "timeToNextObsSecs",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "observationsRemaining",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          {
+            "name": "flags",
+            "type": "uint8",
+            "internalType": "uint8"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "notePriceBps",
+    "inputs": [
+      {
+        "name": "series",
+        "type": "address",
+        "internalType": "contract INoteSeries"
+      },
+      {
+        "name": "volBpsAnnual",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "priceBps",
+        "type": "uint16",
+        "internalType": "uint16"
+      },
+      {
+        "name": "weightsHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "pricer",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract ISurrogatePricer"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "BadFeedAnswer",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "FeedStale",
+    "inputs": [
+      {
+        "name": "updatedAt",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "FixingPending",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NotLive",
+    "inputs": []
+  }
+]

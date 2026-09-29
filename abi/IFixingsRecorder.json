@@ -1,0 +1,242 @@
+[
+  {
+    "type": "function",
+    "name": "MAX_FIX_AGE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "MAX_ROLL",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "feed",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IAggregatorV3"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "fixingOf",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IFixingsRecorder.Fixing",
+        "components": [
+          {
+            "name": "timestamp",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "price",
+            "type": "uint96",
+            "internalType": "uint96"
+          },
+          {
+            "name": "roundId",
+            "type": "uint80",
+            "internalType": "uint80"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isRecorded",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "recordFixing",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      },
+      {
+        "name": "roundId",
+        "type": "uint80",
+        "internalType": "uint80"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "FixingRecorded",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "indexed": true,
+        "internalType": "uint40"
+      },
+      {
+        "name": "roundId",
+        "type": "uint80",
+        "indexed": false,
+        "internalType": "uint80"
+      },
+      {
+        "name": "price",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint40",
+        "indexed": false,
+        "internalType": "uint40"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "AlreadyRecorded",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "BadPrice",
+    "inputs": [
+      {
+        "name": "answer",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "FixingTooStale",
+    "inputs": [
+      {
+        "name": "updatedAt",
+        "type": "uint40",
+        "internalType": "uint40"
+      },
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "FutureObservation",
+    "inputs": [
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NoGapProof",
+    "inputs": [
+      {
+        "name": "roundId",
+        "type": "uint80",
+        "internalType": "uint80"
+      },
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NotLastRoundBefore",
+    "inputs": [
+      {
+        "name": "roundId",
+        "type": "uint80",
+        "internalType": "uint80"
+      },
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "RollTooLong",
+    "inputs": [
+      {
+        "name": "updatedAt",
+        "type": "uint40",
+        "internalType": "uint40"
+      },
+      {
+        "name": "obsTime",
+        "type": "uint40",
+        "internalType": "uint40"
+      }
+    ]
+  }
+]
