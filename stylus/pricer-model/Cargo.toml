@@ -1,0 +1,36 @@
+[package]
+name = "surrogate-pricer-model"
+version = "0.1.0"
+edition = "2024"
+description = "Stylus student model for the Surrogate Pricer: integer MLP distilled from a Monte Carlo teacher"
+license = "MIT"
+
+[dependencies]
+alloy-primitives = "1.5.7"
+alloy-sol-types = "1.5.7"
+stylus-sdk = "0.10.9"
+
+[dev-dependencies]
+stylus-sdk = { version = "0.10.9", features = ["stylus-test"] }
+serde_json = "1"
+
+[build-dependencies]
+serde_json = "1"
+tiny-keccak = { version = "2", features = ["keccak"] }
+
+[lib]
+crate-type = ["lib", "cdylib"]
+
+[features]
+default = ["mini-alloc"]
+export-abi = ["stylus-sdk/export-abi"]
+debug = ["stylus-sdk/debug"]
+mini-alloc = ["stylus-sdk/mini-alloc"]
+contract-client-gen = []
+
+[profile.release]
+codegen-units = 1
+strip = true
+lto = true
+panic = "abort"
+opt-level = 3
