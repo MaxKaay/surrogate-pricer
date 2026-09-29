@@ -1,19 +1,24 @@
-# Surrogate Pricer — Stylus model lane
+# Surrogate Pricer
 
 On-chain fair-value quotes for path-dependent payoffs (autocallables on stock
 tokens): an integer MLP distilled from a Monte Carlo teacher, running as a
-Stylus contract. This repo is the **model contract** lane. It will be merged
-into the main project repo; paths are chosen not to collide.
+Stylus contract, behind a model-free note core on Robinhood Chain, settled in USDG.
+
+Architecture and the lessons it's built on: [docs/architecture.md](docs/architecture.md).
+Frontend guide to the frozen v1 interfaces: [docs/interfaces.md](docs/interfaces.md).
 
 ```
-stylus/pricer-model/   Rust/Stylus contract: priceBps(PricerInputs), weightsHash()
-tools/pricer_quant.py  integer reference (bit-exact twin), float→int quantizer, hash
-tools/make_synthetic.py  synthetic student + golden vectors (toy target, NOT the teacher)
-model/synthetic/       student_export.json, golden_vectors.json, report.json
+contracts/src/interfaces/  frozen v1 interfaces (factory, series, tokens, quoter, Desk, recorder, pricer)
+contracts/src/             FixingsRecorder, NoteQuoter (legacy API), MockChainlinkFeed
+abi/                       interface ABIs for the frontend (contracts/script/export-abi.sh)
+stylus/pricer-model/       Rust/Stylus model contract: priceBps(PricerInputs), weightsHash()
+tools/pricer_quant.py      integer reference (bit-exact twin), float→int quantizer, hash
+tools/make_synthetic.py    synthetic student + golden vectors (toy target, NOT the teacher)
+model/synthetic/           student_export.json, golden_vectors.json, report.json
 docs/model-export-format.md  the distillation ↔ contract boundary
 ```
 
-## Status (2026-09-29)
+## Stylus model status (2026-09-29)
 
 | Check | Result |
 |---|---|
@@ -35,7 +40,10 @@ To swap it in: `PRICER_MODEL_DIR=<dir with student_export.json + golden_vectors.
 python3 -m venv --system-site-packages tools/.venv && tools/.venv/bin/pip install pycryptodome
 cd tools && ../tools/.venv/bin/python make_synthetic.py --out ../model/synthetic
 
-# Contract
+# Solidity
+cd contracts && forge test && script/export-abi.sh
+
+# Stylus contract
 cd stylus/pricer-model
 cargo test                                   # golden vectors + ABI path
 cargo stylus check --endpoint https://rpc.testnet.chain.robinhood.com
